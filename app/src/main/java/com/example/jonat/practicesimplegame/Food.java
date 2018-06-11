@@ -3,13 +3,14 @@ package com.example.jonat.practicesimplegame;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 
 import java.util.Random;
 
 public class Food {
     private Bitmap image;
     private int x,y;
-    private int yVelocity = 5;
+    private int yVelocity = 20;
     private int width, height;
     private int point = 0;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -17,8 +18,8 @@ public class Food {
 
     public Food(Bitmap bmp, int speed){
         image = bmp;
-        height = 100;
-        width = 100;
+        height = 110;
+        width = 110;
 
         Random r = new Random();
 
@@ -27,10 +28,24 @@ public class Food {
         yVelocity = speed;
         point = yVelocity - 2;
 
-        image = Bitmap.createScaledBitmap(
-                image, width, height, false);
+        image = getResizedBitmap(image,width,height);
     }
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
 
+        Matrix matrix = new Matrix();
+
+        matrix.postScale(scaleWidth, scaleHeight);
+
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
     public void draw(Canvas canvas){
         canvas.drawBitmap(image, x,y,null);
     }

@@ -3,6 +3,7 @@ package com.example.jonat.practicesimplegame;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.util.Log;
 
 import java.util.Vector;
@@ -11,19 +12,20 @@ import java.util.Vector;
 public class CharacterSprite {
     private Bitmap image;
     private int x,y;
-    private int xVelocity = 30;
-    private int yVelocity = 5;
+    private int xVelocity = 40;
+
     private int width, height;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
     public CharacterSprite(Bitmap bmp){
         image = bmp;
-        height = 250;
-        width = 250;
 
-        x = screenWidth / 2 - width / 2;
-        y = screenHeight - height;
+        image = getResizedBitmap(image,450,400);
+        this.width=image.getWidth();
+        this.height=image.getHeight();
+        x = screenWidth / 2 - this.width / 2;
+        y = screenHeight - this.height;
 
         // x = 100;
         // y = 100;
@@ -31,11 +33,27 @@ public class CharacterSprite {
         Log.i("Character Sprite", "X: " + x);
         Log.i("Character Sprite", "Y: " + y);
 
-        image = Bitmap.createScaledBitmap(
-                image, width, height, false);
+
     }
 
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+
+        Matrix matrix = new Matrix();
+
+        matrix.postScale(scaleWidth, scaleHeight);
+
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
     public void draw(Canvas canvas){
+
         canvas.drawBitmap(image, x,y,null);
     }
 
