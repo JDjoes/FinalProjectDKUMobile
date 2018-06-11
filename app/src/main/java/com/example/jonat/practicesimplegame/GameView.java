@@ -22,7 +22,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private CharacterSprite characterSprite;
     private Vector<Food> foods;
     private int foodInterval = 0;
-    private int bombInterval = 0;
     public static int score = 0;
     private Context context;
 
