@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.widget.Toast;
@@ -24,11 +25,11 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int foodInterval = 0;
     private int bombInterval = 0;
     public static int score = 0;
-    private Context context;
+
 
     public GameView(Context context){
         super(context);
-        this.context = context;
+
 
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
@@ -130,5 +131,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         //Toast.makeText(context, "Keycode: " + keyCode, Toast.LENGTH_LONG).show();
         return super.onKeyUp(keyCode, event);
     }
+
+    public boolean onTouchEvent(MotionEvent motionEvent) {
+        int x = (int) motionEvent.getX();
+
+        int eventAction = motionEvent.getAction();
+
+        if (eventAction == MotionEvent.ACTION_DOWN) {
+            if (x > Resources.getSystem().getDisplayMetrics().widthPixels / 2) {
+
+                characterSprite.moveRight();
+            } else
+
+                characterSprite.moveLeft();
+        }
+        return true;
+    }
 }
+
 

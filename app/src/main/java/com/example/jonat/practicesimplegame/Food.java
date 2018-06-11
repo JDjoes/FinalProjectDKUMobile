@@ -3,6 +3,7 @@ package com.example.jonat.practicesimplegame;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 
 import java.util.Random;
 
@@ -27,10 +28,24 @@ public class Food {
         yVelocity = speed;
         point = yVelocity - 2;
 
-        image = Bitmap.createScaledBitmap(
-                image, width, height, false);
+        image = getResizedBitmap(image,width,height);
     }
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
 
+        Matrix matrix = new Matrix();
+
+        matrix.postScale(scaleWidth, scaleHeight);
+
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
     public void draw(Canvas canvas){
         canvas.drawBitmap(image, x,y,null);
     }
