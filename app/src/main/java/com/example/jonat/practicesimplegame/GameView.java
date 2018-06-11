@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -23,18 +24,36 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private CharacterSprite characterSprite;
     private Vector<Food> foods;
     private int foodInterval = 0;
+    private Bitmap background;
+
     public static int score = 0;
 
 
     public GameView(Context context){
         super(context);
-
+        background = BitmapFactory.decodeResource(getResources(),R.drawable.castle);
+        background=getResizedBitmap(background,Resources.getSystem().getDisplayMetrics().widthPixels,Resources.getSystem().getDisplayMetrics().heightPixels);
 
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
     }
+    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
+        int width = bm.getWidth();
+        int height = bm.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
 
+        Matrix matrix = new Matrix();
+
+        matrix.postScale(scaleWidth, scaleHeight);
+
+
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+                bm, 0, 0, width, height, matrix, false);
+        bm.recycle();
+        return resizedBitmap;
+    }
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
 
@@ -71,16 +90,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             Food food;
             switch (r.nextInt(5)){
                 case 0:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 7);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 10);
                     break;
                 case 1:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.bluecandy), 5);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.bluecandy), 7);
                     break;
                 case 2:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.redcandy), 3);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.redcandy), 5);
                     break;
                 default:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 7);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 9);
                     break;
             }
 
@@ -106,10 +125,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         super.draw(canvas);
         if (canvas != null) {
             canvas.drawColor(Color.MAGENTA);
-            //Bitmap background = BitmapFactory.decodeResource(getResources(),R.drawable.bg);
+            //Bitmap background = BitmapFactory.decodeResource(getResources(),R.drawable.background);
             //background = Bitmap.createScaledBitmap(
             //        background, Resources.getSystem().getDisplayMetrics().widthPixels, Resources.getSystem().getDisplayMetrics().heightPixels, false);
-            //canvas.drawBitmap(background, 0, 0, null);
+            canvas.drawBitmap(background, 0, 0, null);
 
             characterSprite.draw(canvas);
 

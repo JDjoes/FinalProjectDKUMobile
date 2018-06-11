@@ -10,7 +10,7 @@ import java.util.Random;
 public class Food {
     private Bitmap image;
     private int x,y;
-    private int yVelocity = 5;
+    private int yVelocity = 20;
     private int width, height;
     private int point = 0;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -18,8 +18,8 @@ public class Food {
 
     public Food(Bitmap bmp, int speed){
         image = bmp;
-        height = 100;
-        width = 100;
+        height = 110;
+        width = 110;
 
         Random r = new Random();
 
