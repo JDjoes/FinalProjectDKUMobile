@@ -21,17 +21,25 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private MainThread thread;
     private CharacterSprite characterSprite;
     private Vector<Food> foods;
+    private Vector<Obstacle> obstacles;
     private int foodInterval = 0;
+    private int obsInterval = 0;
     public static int score = 0;
     private Context context;
+    int screenX;
+    private boolean isGameOver;
+    private Boom boom;
 
     public GameView(Context context){
         super(context);
         this.context = context;
+        this.screenX=  screenX;
+        isGameOver = false;
 
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
+        boom = new Boom(context);
     }
 
     @Override
@@ -45,6 +53,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.start();
 
         foods = new Vector<Food>();
+        obstacles = new Vector<Obstacle>();
         characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(),R.drawable.tzuyucartoon));
     }
 
@@ -64,7 +73,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(){
         // characterSprite.update();
-
+        if(score <0){
+            isGameOver = true;
+            foods.clear();
+            obstacles.clear();
+            return;
+        }
         if (foodInterval++ %60 == 0){
             Random r = new Random();
             Food food;
@@ -86,18 +100,53 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             foods.add(food);
         }
 
+        if(obsInterval++ %60 == 0){
+            Random r = new Random();
+            Obstacle obstacle;
+            switch(r.nextInt(5)){
+                case 0:
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs1), 10);
+                    break;
+                case 1:
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs2),7);
+                    break;
+                case 2:
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs3),6);
+                    break;
+                default:
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs1),10);
+            }
+            obstacles.add(obstacle);
+        }
+
+
+
         for (Food f : foods){
             f.update();
             if(f.checkBoundary()){
                 f.destroy();
                 foods.remove(f);
-                score -= 30;
+                //score -= 30;
             }
         }
+
+        for (Obstacle o : obstacles){
+            o.update();
+            if(o.checkBoundary()){
+                o.destroy();
+                obstacles.remove(o);
+            }
+        }
+
+
+
 
         int f_amount = foods.size();
         foods = characterSprite.checkCollision(foods);
         // score += 5 * (f_amount - foods.size());
+
+        int o_amount = obstacles.size();
+        obstacles = characterSprite.checkCollisionOb(obstacles);
     }
 
     @Override
@@ -116,15 +165,31 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                 f.draw(canvas);
             }
 
+            for(Obstacle o: obstacles){
+                o.draw(canvas);
+            }
+
+
             Paint paint = new Paint();
             paint.setColor(Color.WHITE);
             paint.setTextSize(30);
             canvas.drawText("SCORE: " + score, Resources.getSystem().getDisplayMetrics().widthPixels - 200, 40, paint);
+
+            if(isGameOver){
+                paint.setTextSize(150);
+                paint.setTextAlign(Paint.Align.CENTER);
+
+                int yPos =(int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
+                canvas.drawText("Game Over",canvas.getWidth()/2,yPos,paint);
+
+            }
         }
+
     }
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (isGameOver) return super.onKeyUp(keyCode, event);
         characterSprite.handleKeyUp(keyCode);
         //Toast.makeText(context, "Keycode: " + keyCode, Toast.LENGTH_LONG).show();
         return super.onKeyUp(keyCode, event);

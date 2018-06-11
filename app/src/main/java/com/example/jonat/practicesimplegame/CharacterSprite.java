@@ -89,4 +89,18 @@ public class CharacterSprite {
 
         return foods;
     }
+
+    public Vector<Obstacle> checkCollisionOb(Vector<Obstacle> obstacles){
+        for (Obstacle o : obstacles){
+            if (x < o.getWidth() + o.getX()
+                    && x + width > o.getX()
+                    && y < o.getHeight() + o.getY()
+                    && y + height > o.getY()){
+                o.destroy();
+                obstacles.remove(o);
+                GameView.score -= 5;
+            }
+        }
+        return obstacles;
+    }
 }
