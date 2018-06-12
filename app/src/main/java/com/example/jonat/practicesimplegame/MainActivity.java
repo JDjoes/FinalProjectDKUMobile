@@ -16,6 +16,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // NewLEDHandler.ndkPlay(0);
         // TextLCDHandler.printMsg("Candy Pop");
         Handler.ndkPlay(0);

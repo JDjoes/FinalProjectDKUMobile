@@ -22,17 +22,10 @@ public class MainThread extends Thread {
 
     @Override
     public void run(){
-        long startTime;
-        long timeMillis;
-        long waitTime;
-        long totalTime = 0;
-        int frameCount = 0;
-        int targetFPS = 60;
-        long averageFPS;
-        long targetTime = 1000 / targetFPS;
+
 
         while(running){
-            startTime = System.nanoTime();
+
             canvas = null;
 
             try {
@@ -52,21 +45,7 @@ public class MainThread extends Thread {
                 }
             }
 
-            timeMillis = (System.nanoTime() - startTime) / 1000000;
-            waitTime = targetTime - timeMillis;
 
-            try {
-                this.sleep(waitTime);
-            } catch (Exception e) {}
-
-            totalTime += System.nanoTime() - startTime;
-            frameCount++;
-            if (frameCount == targetFPS)        {
-                averageFPS = 1000 / ((totalTime / frameCount) / 1000000);
-                frameCount = 0;
-                totalTime = 0;
-                System.out.println(averageFPS);
-            }
         }
     }
 }
