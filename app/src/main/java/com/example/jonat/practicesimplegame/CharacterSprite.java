@@ -12,8 +12,8 @@ import java.util.Vector;
 public class CharacterSprite {
     private Bitmap image;
     private int x,y;
-    private int xVelocity = 40;
-
+    private int xVelocity = 20;
+    private Utility utility=new Utility();
     private int width, height;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -21,7 +21,7 @@ public class CharacterSprite {
     public CharacterSprite(Bitmap bmp){
         image = bmp;
 
-        image = getResizedBitmap(image,450,400);
+        image = utility.getResizedBitmap(image,180,170);
         this.width=image.getWidth();
         this.height=image.getHeight();
         x = screenWidth / 2 - this.width / 2;
@@ -36,22 +36,7 @@ public class CharacterSprite {
 
     }
 
-    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
 
-        Matrix matrix = new Matrix();
-
-        matrix.postScale(scaleWidth, scaleHeight);
-
-
-        Bitmap resizedBitmap = Bitmap.createBitmap(
-                bm, 0, 0, width, height, matrix, false);
-        bm.recycle();
-        return resizedBitmap;
-    }
     public void draw(Canvas canvas){
 
         canvas.drawBitmap(image, x,y,null);
@@ -93,14 +78,16 @@ public class CharacterSprite {
         }
     }
 
-    public Vector<Food> checkCollision(Vector<Food> foods) {
+    public Vector<Food> checkCollision(Vector<Food> foods, Heart heart) {
         for (Food f : foods){
             if (x < f.getWidth() + f.getX()
                     && x + width > f.getX()
                     && y < f.getHeight() + f.getY()
                     && y + height > f.getY()){
                 f.destroy();
-                foods.remove(f);
+                heart.setX(f.getX());
+                heart.setY(f.getY());
+                //foods.remove(f);
                 GameView.score += 5;
             }
         }
@@ -115,8 +102,9 @@ public class CharacterSprite {
                     && y < o.getHeight() + o.getY()
                     && y + height > o.getY()){
                 o.destroy();
-                obstacles.remove(o);
+                //obstacles.remove(o);
                 GameView.score -= 5;
+                GameView.obHitScore++;
             }
         }
         return obstacles;
