@@ -12,7 +12,7 @@ import java.util.Vector;
 public class CharacterSprite {
     private Bitmap image;
     private int x,y;
-    private int xVelocity = 10;
+    private int xVelocity = 20;
     private Utility utility=new Utility();
     private int width, height;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -21,7 +21,7 @@ public class CharacterSprite {
     public CharacterSprite(Bitmap bmp){
         image = bmp;
 
-        image = utility.getResizedBitmap(image,150,170);
+        image = utility.getResizedBitmap(image,180,170);
         this.width=image.getWidth();
         this.height=image.getHeight();
         x = screenWidth / 2 - this.width / 2;

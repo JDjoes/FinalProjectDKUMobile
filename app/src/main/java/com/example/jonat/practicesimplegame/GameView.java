@@ -102,16 +102,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             Food food;
             switch (r.nextInt(5)){
                 case 0:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 10);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 4);
                     break;
                 case 1:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.bluecandy), 7);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.bluecandy), 3);
                     break;
                 case 2:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.redcandy), 5);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.redcandy), 2);
                     break;
                 default:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 9);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 4);
                     break;
             }
 
@@ -123,16 +123,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             Obstacle obstacle;
             switch(r.nextInt(5)){
                 case 0:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs1), 10);
-                    break;
-                case 1:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs2),7);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs2), 4);
                     break;
                 case 2:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs3),6);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs3),2);
                     break;
                 default:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs1),10);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs2),4);
             }
             obstacles.add(obstacle);
         }

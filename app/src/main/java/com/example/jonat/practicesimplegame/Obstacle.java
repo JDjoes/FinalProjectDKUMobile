@@ -8,6 +8,7 @@ import java.util.Random;
 
 public class Obstacle {
     private Bitmap image;
+    private Utility utility =new Utility();
     private int x,y;
     private int yVelocity = 5;
     private int width, height;
@@ -17,8 +18,8 @@ public class Obstacle {
 
     public Obstacle(Bitmap bmp, int speed){
         image = bmp;
-        height = 100;
-        width = 100;
+        height = 50;
+        width = 50;
 
         Random r = new Random();
 
@@ -27,8 +28,7 @@ public class Obstacle {
         yVelocity = speed;
         point = yVelocity - 2;
 
-        image = Bitmap.createScaledBitmap(
-                image, width, height, false);
+        image = utility.getResizedBitmap(image,width,height);
     }
 
     public void draw(Canvas canvas){

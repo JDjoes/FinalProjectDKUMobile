@@ -9,6 +9,7 @@ import java.util.Random;
 
 public class Food {
     private Bitmap image;
+    private Utility utility= new Utility();
     private int x,y;
     private int yVelocity = 20;
     private int width, height;
@@ -28,24 +29,9 @@ public class Food {
         yVelocity = speed;
         point = yVelocity - 2;
 
-        image = getResizedBitmap(image,width,height);
+        image = utility.getResizedBitmap(image,width,height);
     }
-    public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
-        int width = bm.getWidth();
-        int height = bm.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
 
-        Matrix matrix = new Matrix();
-
-        matrix.postScale(scaleWidth, scaleHeight);
-
-
-        Bitmap resizedBitmap = Bitmap.createBitmap(
-                bm, 0, 0, width, height, matrix, false);
-        bm.recycle();
-        return resizedBitmap;
-    }
     public void draw(Canvas canvas){
         canvas.drawBitmap(image, x,y,null);
     }
