@@ -15,6 +15,8 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.widget.Toast;
 
+import com.binus.dku.hanback.LEDHandler;
+
 import java.util.Random;
 import java.util.Vector;
 
@@ -101,6 +103,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             isGameOver = true;
             foods.clear();
             obstacles.clear();
+            LEDHandler.ndkPlay(1);
             return;
         }
         if (foodInterval++ %60 == 0){
