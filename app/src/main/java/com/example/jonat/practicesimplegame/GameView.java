@@ -15,6 +15,7 @@ import android.view.SurfaceView;
 import android.view.SurfaceHolder;
 import android.widget.Toast;
 
+import com.binus.dku.hanback.Handler;
 import com.binus.dku.hanback.LEDHandler;
 import com.binus.dku.hanback.NewLEDHandler;
 
@@ -105,8 +106,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             foods.clear();
             obstacles.clear();
             // LEDHandler.ndkPlay(1);
-            NewLEDHandler.ndkPlay(1);
-            return;
+            // NewLEDHandler.ndkPlay(1);
+            Handler.ndkPlay(1);
+            // return;
         }
         if (foodInterval++ %60 == 0){
             Random r = new Random();
@@ -225,6 +227,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public boolean onTouchEvent(MotionEvent motionEvent) {
+        if (isGameOver) return true;
         int x = (int) motionEvent.getX();
 
         int eventAction = motionEvent.getAction();

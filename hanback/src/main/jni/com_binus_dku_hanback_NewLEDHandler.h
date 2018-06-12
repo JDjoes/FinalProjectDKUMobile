@@ -13,7 +13,7 @@ extern "C" {
  * Signature: (I)I
  */
 JNIEXPORT jint JNICALL Java_com_binus_dku_hanback_NewLEDHandler_ndkPlay
-  (JNIEnv *, jobject, jint);
+  (JNIEnv *, jclass, jint);
 
 #ifdef __cplusplus
 }
