@@ -84,9 +84,10 @@ public class CharacterSprite {
                     && x + width > f.getX()
                     && y < f.getHeight() + f.getY()
                     && y + height > f.getY()){
-                f.destroy();
                 heart.setX(f.getX());
                 heart.setY(f.getY());
+                f.destroy();
+
                 //foods.remove(f);
                 GameView.score += 5;
             }

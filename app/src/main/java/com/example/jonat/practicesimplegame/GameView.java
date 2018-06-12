@@ -88,7 +88,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(){
         // characterSprite.update();
-
+        heart.setX(-800);
+        heart.setY(-800);
         if(score <0){
             isGameOver = true;
             foods.clear();
