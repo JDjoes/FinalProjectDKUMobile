@@ -1,11 +1,10 @@
 package com.binus.dku.hanback;
 
-public class LEDHandler {
+public class NewLEDHandler {
 
-    static{
+    static {
         System.loadLibrary("hanback");
     }
 
     public static native int ndkPlay(int v);
-
 }

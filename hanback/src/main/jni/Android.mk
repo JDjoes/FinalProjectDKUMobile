@@ -4,7 +4,7 @@ include $(CLEAR_VARS)
 
 LOCAL_MODULE    := hanback
 
-FILES := LEDHandler.cpp
+FILES := NewLEDHandler.cpp
 
 LOCAL_SRC_FILES := $(FILES)
 
