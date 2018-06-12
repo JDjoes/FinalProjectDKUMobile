@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 
 public class Heart {
     private Bitmap bitmap;
-
+    private Utility utility;
     private int x;
     private int y;
 

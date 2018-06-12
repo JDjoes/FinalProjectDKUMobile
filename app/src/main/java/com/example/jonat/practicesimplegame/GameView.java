@@ -34,6 +34,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     int screenX;
     private boolean isGameOver;
     private Boom boom;
+    private Heart heart;
     private Bitmap background;
 
     public GameView(Context context){
@@ -50,6 +51,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
+        heart = new Heart(context);
         boom = new Boom(context);
     }
     public Bitmap getResizedBitmap(Bitmap bm, int newWidth, int newHeight) {
@@ -99,6 +101,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(){
         // characterSprite.update();
+
         if(score <0){
             isGameOver = true;
             foods.clear();
@@ -169,7 +172,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
 
         int f_amount = foods.size();
-        foods = characterSprite.checkCollision(foods);
+        foods = characterSprite.checkCollision(foods,heart);
         // score += 5 * (f_amount - foods.size());
 
         int o_amount = obstacles.size();
@@ -195,9 +198,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             for(Obstacle o: obstacles){
                 o.draw(canvas);
             }
-
-
             Paint paint = new Paint();
+            canvas.drawBitmap(heart.getBitmap(),heart.getX(),heart.getY(),paint);
+
+
             paint.setColor(Color.WHITE);
             paint.setTextSize(30);
             canvas.drawText("SCORE: " + score, Resources.getSystem().getDisplayMetrics().widthPixels - 200, 40, paint);

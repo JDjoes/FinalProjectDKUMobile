@@ -13,7 +13,7 @@ public class CharacterSprite {
     private Bitmap image;
     private int x,y;
     private int xVelocity = 10;
-
+    private Utility utility;
     private int width, height;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
@@ -21,7 +21,7 @@ public class CharacterSprite {
     public CharacterSprite(Bitmap bmp){
         image = bmp;
 
-        image = getResizedBitmap(image,150,100);
+        image = utility.getResizedBitmap(image,150,100);
         this.width=image.getWidth();
         this.height=image.getHeight();
         x = screenWidth / 2 - this.width / 2;
@@ -93,13 +93,15 @@ public class CharacterSprite {
         }
     }
 
-    public Vector<Food> checkCollision(Vector<Food> foods) {
+    public Vector<Food> checkCollision(Vector<Food> foods, Heart heart) {
         for (Food f : foods){
             if (x < f.getWidth() + f.getX()
                     && x + width > f.getX()
                     && y < f.getHeight() + f.getY()
                     && y + height > f.getY()){
                 f.destroy();
+                heart.setX(f.getX());
+                heart.setY(f.getY());
                 foods.remove(f);
                 GameView.score += 5;
             }
