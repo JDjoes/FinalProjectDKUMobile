@@ -108,7 +108,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.bluecandy), 3);
                     break;
                 case 2:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.redcandy), 2);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.candy), 2);
                     break;
                 default:
                     food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 4);
@@ -123,13 +123,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             Obstacle obstacle;
             switch(r.nextInt(5)){
                 case 0:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs2), 4);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs1), 4);
                     break;
                 case 2:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs3),2);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs2),2);
                     break;
                 default:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs2),4);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs1),4);
             }
             obstacles.add(obstacle);
         }
