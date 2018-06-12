@@ -31,6 +31,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private int foodInterval = 0;
     private int obsInterval = 0;
     public static int score = 0;
+    public static int life = 3;
     public static int obHitScore = 0;
     private Context context;
     int screenX;
@@ -110,7 +111,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.bluecandy), 3);
                     break;
                 case 2:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.redcandy), 2);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.candy), 2);
                     break;
                 default:
                     food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 4);
@@ -120,20 +121,23 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             foods.add(food);
         }
 
-            if (obsInterval++ % 160 == 0) {
-                Random r = new Random();
-                Obstacle obstacle;
-                switch (r.nextInt(5)) {
-                    case 0:
-                        obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs2), 4);
-                        break;
-                    case 2:
-                        obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs3), 2);
-                        break;
-                    default:
-                        obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs2), 4);
-                }
+
+        if(obsInterval++ %160 == 0) {
+            Random r = new Random();
+            Obstacle obstacle;
+            switch (r.nextInt(5)) {
+                case 0:
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs1), 4);
+                    break;
+                case 2:
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs2), 2);
+                    break;
+                default:
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs1), 4);
+
             }
+            obstacles.add(obstacle);
+        }
 
 
 
@@ -190,6 +194,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(Color.WHITE);
             paint.setTextSize(30);
             canvas.drawText("SCORE: " + score, Resources.getSystem().getDisplayMetrics().widthPixels - 200, 40, paint);
+            canvas.drawText("LIFE: " + life, Resources.getSystem().getDisplayMetrics().widthPixels -750, 40, paint);
 
             if(isGameOver){
                 paint.setTextSize(75);

@@ -104,6 +104,7 @@ public class CharacterSprite {
                 o.destroy();
                 //obstacles.remove(o);
                 GameView.score -= 5;
+                GameView.life --;
                 GameView.obHitScore++;
             }
         }
