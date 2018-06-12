@@ -71,12 +71,12 @@ public class Food {
     }
 
     public void destroy() {
-        this.x = 800;
-        this.y = 800;
+        this.x = -200;
+        this.y = -200;
     }
 
     public boolean checkBoundary() {
-        if (this.y + this.height > this.screenHeight)
+        if (this.y +10+ this.height > this.screenHeight)
             return true;
         return false;
     }

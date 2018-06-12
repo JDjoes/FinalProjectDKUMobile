@@ -3,17 +3,18 @@ package com.example.jonat.practicesimplegame;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 
 public class Heart {
     private Bitmap bitmap;
-    private Utility utility;
+    private Utility utility=new Utility();
     private int x;
     private int y;
 
     public Heart(Context context){
         bitmap = BitmapFactory.decodeResource(
                 context.getResources(),R.drawable.heart);
-
+        bitmap = utility.getResizedBitmap(bitmap,50,50);
         x=-250;
         y=-250;
 
@@ -42,5 +43,9 @@ public class Heart {
 
     public void setY(int y) {
         this.y = y;
+    }
+    public void draw(Canvas canvas){
+
+        canvas.drawBitmap(bitmap, x,y,null);
     }
 }
