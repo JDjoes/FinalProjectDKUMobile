@@ -91,8 +91,9 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(){
         // characterSprite.update();
-
-        if(score <0 || obHitScore == 3){
+        heart.setX(-800);
+        heart.setY(-800);
+        if(score <0 || obHitScore ==3){
             isGameOver = true;
             foods.clear();
             obstacles.clear();
@@ -193,7 +194,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             Paint paint = new Paint();
             paint.setColor(Color.WHITE);
             paint.setTextSize(30);
-            canvas.drawText("SCORE: " + score, Resources.getSystem().getDisplayMetrics().widthPixels - 200, 40, paint);
+            canvas.drawText("SCORE: " + score, Resources.getSystem().getDisplayMetrics().widthPixels - 170, 40, paint);
             canvas.drawText("LIFE: " + life, Resources.getSystem().getDisplayMetrics().widthPixels -750, 40, paint);
 
             if(isGameOver){
