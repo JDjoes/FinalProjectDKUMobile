@@ -18,8 +18,8 @@ public class Food {
 
     public Food(Bitmap bmp, int speed){
         image = bmp;
-        height = 110;
-        width = 110;
+        height = 50;
+        width = 50;
 
         Random r = new Random();
 
