@@ -96,12 +96,14 @@ public class CharacterSprite {
         return foods;
     }
 
-    public Vector<Obstacle> checkCollisionOb(Vector<Obstacle> obstacles){
+    public Vector<Obstacle> checkCollisionOb(Vector<Obstacle> obstacles, Heartbreak heartbreak){
         for (Obstacle o : obstacles){
             if (x < o.getWidth() + o.getX()
                     && x + width > o.getX()
                     && y < o.getHeight() + o.getY()
                     && y + height > o.getY()){
+                heartbreak.setX(o.getX());
+                heartbreak.setY(o.getY());
                 o.destroy();
                 //obstacles.remove(o);
                 GameView.score -= 5;

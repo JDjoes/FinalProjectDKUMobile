@@ -39,6 +39,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean isGameOver;
     private Boom boom;
     private Heart heart;
+    private Heartbreak heartbreak;
     private Bitmap background;
 
     public GameView(Context context){
@@ -57,6 +58,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread = new MainThread(getHolder(), this);
         setFocusable(true);
         heart = new Heart(context);
+        heartbreak = new Heartbreak(context);
         boom = new Boom(context);
     }
 
@@ -93,6 +95,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         // characterSprite.update();
         heart.setX(-800);
         heart.setY(-800);
+        heartbreak.setY(-800);
+        heartbreak.setY(-800);
         if(score <0 || obHitScore ==3){
             isGameOver = true;
             foods.clear();
@@ -169,7 +173,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         // score += 5 * (f_amount - foods.size());
 
         int o_amount = obstacles.size();
-        obstacles = characterSprite.checkCollisionOb(obstacles);
+        obstacles = characterSprite.checkCollisionOb(obstacles,heartbreak);
     }
 
     @Override
@@ -190,6 +194,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
 
             heart.draw(canvas);
+            heartbreak.draw(canvas);
 
             Paint paint = new Paint();
             paint.setColor(Color.WHITE);
