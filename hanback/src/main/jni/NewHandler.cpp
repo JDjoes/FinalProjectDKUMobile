@@ -90,6 +90,11 @@ JNIEXPORT jstring JNICALL Java_com_binus_dku_hanback_NewHandler_printMsg
 
     strcommand.pos = 0;
     ioctl(fd, TEXTLCD_DD_ADDRESS, &strcommand, 32);
+    char test[] = "Candy Pop";
+    ret = write(fd, test, strlen(test));
+
+    strcommand.pos = 40;
+    ioctl(fd, TEXTLCD_DD_ADDRESS, &strcommand, 32);
     ret = write(fd, buf, strlen(buf));
 
     printf("String: %s", buf);
@@ -108,8 +113,14 @@ JNIEXPORT jint JNICALL Java_com_binus_dku_hanback_NewHandler_getSwitchValue
 
     fd = open("dev/fpga_dipsw", O_RDONLY);
 
+    if(fd < 0)
+        return -errno;
+
     ret = read(fd, &data, 4);
-    if(ret == 4) return data;
+    if(ret == 4) {
+        close(fd);
+        return data;
+    }
 
     return fd;
 }

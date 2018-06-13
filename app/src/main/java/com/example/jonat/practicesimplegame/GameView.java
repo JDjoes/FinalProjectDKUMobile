@@ -8,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -32,32 +33,40 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private Vector<Food> foods;
     private Vector<Obstacle> obstacles;
     private int foodInterval = 0;
-
     private int obsInterval = 0;
     public static int score = 0;
+    public static int life = 3;
+    public static int obHitScore = 0;
     private Context context;
+    private MediaPlayer mediaPlayer;
     int screenX;
+
     private boolean isGameOver;
     private Boom boom;
     private Heart heart;
+    public static int flagHeart=0;
+    public static int flagHeartBreak=0;
+    private Heartbreak heartbreak;
     private Bitmap background;
 
     public GameView(Context context){
         super(context);
         this.context = context;
         this.screenX=  screenX;
+
         isGameOver = false;
         background = BitmapFactory.decodeResource(getResources(),R.drawable.castle);
         background=utility.getResizedBitmap(background,Resources.getSystem().getDisplayMetrics().widthPixels,Resources.getSystem().getDisplayMetrics().heightPixels);
 
 
-
+        mediaPlayer = MediaPlayer.create(getContext(), R.raw.twice);
 
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
-        sThread = new SongThread();
+        sThread = new SongThread(mediaPlayer);
         setFocusable(true);
         heart = new Heart(context);
+        heartbreak = new Heartbreak(context);
         boom = new Boom(context);
     }
 
@@ -71,9 +80,12 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         thread.setRunning(true);
         thread.start();
 
+        sThread.start();
+
         foods = new Vector<Food>();
         obstacles = new Vector<Obstacle>();
-        characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(),R.drawable.tzuyucartoon));
+        characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(),R.drawable.tzuyucartoon),
+                BitmapFactory.decodeResource(getResources(),R.drawable.tzuyucartoonmoveleft));
     }
 
     @Override
@@ -92,12 +104,31 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(){
         // characterSprite.update();
+        if(flagHeart!=0){
+            flagHeart--;
 
-        if(score <0){
+        }
+        else {
+            heart.setX(-800);
+            heart.setY(-800);
+        }
+//        heart.setX(-800);
+//        heart.setY(-800);
+        if(flagHeartBreak!=0){
+            flagHeartBreak--;
+
+        }
+        else {
+            heartbreak.setX(-800);
+            heartbreak.setY(-800);
+        }
+//        heartbreak.setY(-800);
+//        heartbreak.setY(-800);
+        if(obHitScore ==3){
             isGameOver = true;
             foods.clear();
             obstacles.clear();
-            NewHandler.ndkPlay(1);
+            NewHandler.ndkPlay(0x1FF);
             return;
         }
         if (foodInterval++ %100 == 0){
@@ -111,7 +142,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
                     food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.bluecandy), 3);
                     break;
                 case 2:
-                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.redcandy), 2);
+                    food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.candy), 2);
                     break;
                 default:
                     food = new Food(BitmapFactory.decodeResource(getResources(),R.drawable.cottoncandy), 4);
@@ -121,21 +152,22 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             foods.add(food);
         }
 
-        if(obsInterval++ %160 == 0){
+
+        if(obsInterval++ %190 == 0) {
             Random r = new Random();
             Obstacle obstacle;
-            switch(r.nextInt(5)){
+            switch (r.nextInt(5)) {
                 case 0:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs2), 4);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs1), 2);
                     break;
-                case 2:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs3),2);
-                    break;
+
                 default:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(),R.drawable.obs2),4);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs1), 2);
+
             }
             obstacles.add(obstacle);
         }
+
 
 
 
@@ -165,17 +197,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         // score += 5 * (f_amount - foods.size());
 
         int o_amount = obstacles.size();
-        obstacles = characterSprite.checkCollisionOb(obstacles);
+        obstacles = characterSprite.checkCollisionOb(obstacles,heartbreak);
     }
 
     @Override
     public void draw(Canvas canvas){
         super.draw(canvas);
         if (canvas != null) {
-            canvas.drawColor(Color.MAGENTA);
-            //Bitmap background = BitmapFactory.decodeResource(getResources(),R.drawable.background);
-            //background = Bitmap.createScaledBitmap(
-            //        background, Resources.getSystem().getDisplayMetrics().widthPixels, Resources.getSystem().getDisplayMetrics().heightPixels, false);
+           // canvas.drawColor(Color.MAGENTA);
             canvas.drawBitmap(background, 0, 0, null);
 
             characterSprite.draw(canvas);
@@ -189,11 +218,14 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             }
 
             heart.draw(canvas);
+            heartbreak.draw(canvas);
 
             Paint paint = new Paint();
             paint.setColor(Color.WHITE);
             paint.setTextSize(30);
-            canvas.drawText("SCORE: " + score, Resources.getSystem().getDisplayMetrics().widthPixels - 200, 40, paint);
+            canvas.drawText("SCORE: " + score, Resources.getSystem().getDisplayMetrics().widthPixels - 170, 40, paint);
+            canvas.drawText("LIFE: " + life, Resources.getSystem().getDisplayMetrics().widthPixels - 170, 75, paint);
+            NewHandler.printMsg("Score: " + score);
 
             if(isGameOver){
                 paint.setTextSize(75);

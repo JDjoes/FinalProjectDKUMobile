@@ -21,14 +21,13 @@ public class MainActivity extends Activity {
 
         // NewLEDHandler.ndkPlay(0);
         // TextLCDHandler.printMsg("Candy Pop");
+        Log.i("MainActivity", "Switch Value: " + NewHandler.getSwitchValue());
         NewHandler.ndkPlay(0);
-        String s = NewHandler.printMsg("Candy Pop");
+        String s = NewHandler.printMsg("Score: 0");
         Log.i("MainActivity", s);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(new GameView(this));
     }
-
-
 }

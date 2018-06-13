@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bgedit"
+    android:background="@drawable/bgsplashedit"
     tools:context=".StartMenu">
+
 
     <ImageButton
         android:id="@+id/buttonPlay"
@@ -21,5 +22,4 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
 </RelativeLayout>

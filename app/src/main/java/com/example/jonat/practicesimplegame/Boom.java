@@ -3,10 +3,6 @@ package com.example.jonat.practicesimplegame;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-
-/**
- * Created by Belal on 6/15/2016.
- */
 public class Boom {
 
 
@@ -19,8 +15,6 @@ public class Boom {
         //getting boom image from drawable resource
         bitmap = BitmapFactory.decodeResource
                 (context.getResources(), R.drawable.boom);
-
-
         x = -250;
         y = -250;
     }
