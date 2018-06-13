@@ -1,6 +1,6 @@
 package com.binus.dku.hanback;
 
-public class Handler {
+public class NewHandler {
 
     static {
         System.loadLibrary("hanback");

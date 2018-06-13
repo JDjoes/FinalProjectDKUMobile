@@ -2,7 +2,8 @@
 // Created by asus on 6/12/2018.
 //
 
-#include "com_binus_dku_hanback_Handler.h"
+
+#include "com_binus_dku_hanback_NewHandler.h"
 #include <string.h>
 #include <jni.h>
 #include <stdio.h>
@@ -54,7 +55,7 @@ void initialize(){
     }
 }
 
-JNIEXPORT jint JNICALL Java_com_binus_dku_hanback_Handler_ndkPlay
+JNIEXPORT jint JNICALL Java_com_binus_dku_hanback_NewHandler_ndkPlay
         (JNIEnv *env, jclass c, jint v){
 
     int fd;
@@ -67,7 +68,7 @@ JNIEXPORT jint JNICALL Java_com_binus_dku_hanback_Handler_ndkPlay
     return v;
 }
 
-JNIEXPORT jstring JNICALL Java_com_binus_dku_hanback_Handler_printMsg
+JNIEXPORT jstring JNICALL Java_com_binus_dku_hanback_NewHandler_printMsg
         (JNIEnv *env, jclass c, jstring s){
 
     jboolean iscopy;
@@ -98,4 +99,17 @@ JNIEXPORT jstring JNICALL Java_com_binus_dku_hanback_Handler_printMsg
     strcpy(temp, buf);
     jstring jstrBuf = (*env).NewStringUTF(temp);
     return jstrBuf;
+}
+
+JNIEXPORT jint JNICALL Java_com_binus_dku_hanback_NewHandler_getSwitchValue
+        (JNIEnv *env, jclass c){
+
+    int ret, fd, data;
+
+    fd = open("dev/fpga_dipsw", O_RDONLY);
+
+    ret = read(fd, &data, 4);
+    if(ret == 4) return data;
+
+    return fd;
 }

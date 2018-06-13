@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.binus.dku.hanback.Handler;
 import com.binus.dku.hanback.LEDHandler;
+import com.binus.dku.hanback.NewHandler;
 import com.binus.dku.hanback.NewLEDHandler;
 
 import java.util.Random;
@@ -25,6 +26,7 @@ import java.util.Vector;
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     private MainThread thread;
+    private SongThread sThread;
     private CharacterSprite characterSprite;
     private Utility utility=new Utility();
     private Vector<Food> foods;
@@ -53,6 +55,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         getHolder().addCallback(this);
         thread = new MainThread(getHolder(), this);
+        sThread = new SongThread();
         setFocusable(true);
         heart = new Heart(context);
         boom = new Boom(context);
@@ -94,10 +97,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             isGameOver = true;
             foods.clear();
             obstacles.clear();
-            // LEDHandler.ndkPlay(1);
-            // NewLEDHandler.ndkPlay(1);
-            Handler.ndkPlay(1);
-            // return;
+            NewHandler.ndkPlay(1);
+            return;
         }
         if (foodInterval++ %100 == 0){
             Random r = new Random();
