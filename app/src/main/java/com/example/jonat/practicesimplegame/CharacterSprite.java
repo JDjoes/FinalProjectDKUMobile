@@ -2,6 +2,7 @@ package com.example.jonat.practicesimplegame;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.util.Log;
@@ -10,22 +11,24 @@ import java.util.Vector;
 
 
 public class CharacterSprite {
+    private Bitmap image1;
+    private Bitmap image2;
     private Bitmap image;
     private int x,y;
-    private int xVelocity = 20;
+    private int xVelocity = 23;
     private Utility utility=new Utility();
     private int width, height;
     private int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
     private int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
-    public CharacterSprite(Bitmap bmp){
-        image = bmp;
-
-        image = utility.getResizedBitmap(image,180,170);
+    public CharacterSprite(Bitmap bmp1,Bitmap bmp2){
+        image1 = utility.getResizedBitmap(bmp1,160,150);
+        image2 = utility.getResizedBitmap(bmp2,160,150);
+        image = image1;
         this.width=image.getWidth();
         this.height=image.getHeight();
         x = screenWidth / 2 - this.width / 2;
-        y = screenHeight - this.height;
+        y = screenHeight - this.height+5;
 
         // x = 100;
         // y = 100;
@@ -54,19 +57,22 @@ public class CharacterSprite {
     }
 
     public void moveLeft(){
+        image=image2;
         if (this.x - this.xVelocity < 0) return;
 
         this.x -= this.xVelocity;
     }
 
     public void moveRight(){
+        image=image1;
         if (this.x + this.width + this.xVelocity > this.screenWidth) return;
 
         this.x += this.xVelocity;
+
     }
 
     public void handleKeyUp(int keyCode) {
-        Log.i("Character Sprite", "Key Code: " + keyCode);
+        //Log.i("Character Sprite", "Key Code: " + keyCode);
 
         switch (keyCode){
             case 11:
@@ -86,6 +92,7 @@ public class CharacterSprite {
                     && y + height > f.getY()){
                 heart.setX(f.getX());
                 heart.setY(f.getY());
+                GameView.flagHeart=4;
                 f.destroy();
 
                 //foods.remove(f);
@@ -105,8 +112,10 @@ public class CharacterSprite {
                 heartbreak.setX(o.getX());
                 heartbreak.setY(o.getY());
                 o.destroy();
+
                 //obstacles.remove(o);
-                GameView.score -= 5;
+                GameView.flagHeartBreak=4;
+                //GameView.score -= 5;
                 GameView.life --;
                 GameView.obHitScore++;
             }

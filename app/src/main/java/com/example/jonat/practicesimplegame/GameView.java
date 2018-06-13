@@ -39,6 +39,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private boolean isGameOver;
     private Boom boom;
     private Heart heart;
+    public static int flagHeart=0;
+    public static int flagHeartBreak=0;
     private Heartbreak heartbreak;
     private Bitmap background;
 
@@ -74,7 +76,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
         foods = new Vector<Food>();
         obstacles = new Vector<Obstacle>();
-        characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(),R.drawable.tzuyucartoon));
+        characterSprite = new CharacterSprite(BitmapFactory.decodeResource(getResources(),R.drawable.tzuyucartoon),
+                BitmapFactory.decodeResource(getResources(),R.drawable.tzuyucartoonmoveleft));
     }
 
     @Override
@@ -93,11 +96,27 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     public void update(){
         // characterSprite.update();
-        heart.setX(-800);
-        heart.setY(-800);
-        heartbreak.setY(-800);
-        heartbreak.setY(-800);
-        if(score <0 || obHitScore ==3){
+        if(flagHeart!=0){
+            flagHeart--;
+
+        }
+        else {
+            heart.setX(-800);
+            heart.setY(-800);
+        }
+//        heart.setX(-800);
+//        heart.setY(-800);
+        if(flagHeartBreak!=0){
+            flagHeartBreak--;
+
+        }
+        else {
+            heartbreak.setX(-800);
+            heartbreak.setY(-800);
+        }
+//        heartbreak.setY(-800);
+//        heartbreak.setY(-800);
+        if(obHitScore ==3){
             isGameOver = true;
             foods.clear();
             obstacles.clear();
@@ -127,18 +146,16 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         }
 
 
-        if(obsInterval++ %160 == 0) {
+        if(obsInterval++ %190 == 0) {
             Random r = new Random();
             Obstacle obstacle;
             switch (r.nextInt(5)) {
                 case 0:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs1), 4);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs1), 2);
                     break;
-                case 2:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs2), 2);
-                    break;
+
                 default:
-                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs1), 4);
+                    obstacle = new Obstacle(BitmapFactory.decodeResource(getResources(), R.drawable.obs1), 2);
 
             }
             obstacles.add(obstacle);
@@ -180,7 +197,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas){
         super.draw(canvas);
         if (canvas != null) {
-            canvas.drawColor(Color.MAGENTA);
+           // canvas.drawColor(Color.MAGENTA);
             canvas.drawBitmap(background, 0, 0, null);
 
             characterSprite.draw(canvas);
@@ -200,7 +217,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             paint.setColor(Color.WHITE);
             paint.setTextSize(30);
             canvas.drawText("SCORE: " + score, Resources.getSystem().getDisplayMetrics().widthPixels - 170, 40, paint);
-            canvas.drawText("LIFE: " + life, Resources.getSystem().getDisplayMetrics().widthPixels -750, 40, paint);
+            canvas.drawText("LIFE: " + life, Resources.getSystem().getDisplayMetrics().widthPixels - 170, 75, paint);
 
             if(isGameOver){
                 paint.setTextSize(75);

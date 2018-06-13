@@ -13,7 +13,7 @@ public class Heartbreak {
 
     public Heartbreak(Context context){
         bitmap = BitmapFactory.decodeResource(
-                context.getResources(),R.drawable.heartbreak);
+                context.getResources(),R.drawable.boom);
         bitmap = utility.getResizedBitmap(bitmap,50,50);
         x=-250;
         y=-250;
